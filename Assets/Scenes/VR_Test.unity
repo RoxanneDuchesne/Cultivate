@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.013151816, g: 0.0041836915, b: 0.00568826, a: 1}
+  m_IndirectSpecularColor: {r: 0.025053142, g: 0.007986999, b: 0.010472356, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -361,6 +361,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 2064170631}
+    - target: {fileID: 11459652, guid: 9eb238ce28dc32249939b9605d0b30ec, type: 3}
+      propertyPath: Radius
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9eb238ce28dc32249939b9605d0b30ec, type: 3}
 --- !u!1 &220225239 stripped
@@ -413,6 +417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   star_generator: {fileID: 0}
   breath_tracker_obj: {fileID: 1444487911}
+  with_breath: 1
 --- !u!1001 &344710754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -528,6 +533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   star_generator: {fileID: 0}
   breath_tracker_obj: {fileID: 0}
+  with_breath: 1
 --- !u!4 &683756398 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 482130, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
@@ -614,7 +620,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 160, y: 180}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1048371166
 MonoBehaviour:
@@ -878,8 +884,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resonance_frequency_s: 10
-  resonance_frequency_buffer_s: 0.5
-  movement_noise_buffer: 0.05
+  resonance_frequency_buffer_s: 3
+  movement_noise_buffer: 0.005
   calibrated: 0
   breathing_in: 0
   breathing_out: 0
@@ -888,6 +894,7 @@ MonoBehaviour:
   incorrect_consecutive_breaths: 0
   previous_correct_consecutuve_breaths: 0
   previous_incorrect_consecutive_breaths: 0
+  number_of_breaths: 0
 --- !u!1001 &1448886384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1156,7 +1163,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1936979083
 Canvas:
   m_ObjectHideFlags: 0

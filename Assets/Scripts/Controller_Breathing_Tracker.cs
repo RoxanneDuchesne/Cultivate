@@ -9,7 +9,7 @@ public class Controller_Breathing_Tracker : MonoBehaviour
 
     //public GameObject left_controller, right_controller;
 
-    //Tuning Variables
+    [Header("Tuning Variables")]
     static public int frames_in_short_moving_avg = 10;
     static public int frames_in_long_moving_avg = 90;
 
@@ -20,7 +20,7 @@ public class Controller_Breathing_Tracker : MonoBehaviour
 
     static public int number_of_breaths_to_record = 10;
 
-    //Info Variables
+    [Header("Information Variables")]
     public bool calibrated = false;
 
     public bool breathing_in = false;
@@ -33,6 +33,8 @@ public class Controller_Breathing_Tracker : MonoBehaviour
 
     public int previous_correct_consecutuve_breaths = 0;
     public int previous_incorrect_consecutive_breaths = 0;
+
+    public int number_of_breaths = 0;
 
     //Private Variables
     private int frames_to_calibration = frames_in_long_moving_avg;
@@ -218,6 +220,7 @@ public class Controller_Breathing_Tracker : MonoBehaviour
 
 
         breath_start_time = current_time;
+        number_of_breaths++;
 
     }
 

@@ -20,6 +20,15 @@ public class Debug_Text : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        debug_text.text = "Hellow";
+        string debug_log = "";
+
+        debug_log += "Debug_Menu: \n";
+        debug_log += "Breathing In:" + breath_tracker.breathing_in.ToString() + "\n";
+        debug_log += "Breathing Out:" + breath_tracker.breathing_out.ToString() + "\n";
+        debug_log += "Breaths:" + breath_tracker.number_of_breaths.ToString() + "\n";
+        debug_log += "Consecutive Breaths at Frequency:" + breath_tracker.correct_consecutive_breaths.ToString() + "\n";
+        debug_log += "Consecutive Breaths not at Frequency:" + breath_tracker.incorrect_consecutive_breaths.ToString() + "\n";
+
+        debug_text.text = debug_log;
     }
 }
