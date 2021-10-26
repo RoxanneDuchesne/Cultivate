@@ -18,6 +18,9 @@ public class Controller_Breathing_Tracker : MonoBehaviour
 
     public float movement_noise_buffer = 0.05f;
 
+    public float abnormal_controller_movement_indicator = 1.0f;
+    public float abnormal_controller_rotation_indicator = 50.0f;
+
     static public int number_of_breaths_to_record = 10;
 
     [Header("Information Variables")]
@@ -41,8 +44,8 @@ public class Controller_Breathing_Tracker : MonoBehaviour
 
     private LinkedList<Vector3> position_trend_left_touch = new LinkedList<Vector3>();
     private LinkedList<Vector3> position_trend_right_touch = new LinkedList<Vector3>();
-    private LinkedList<Quaternion> rotation_trend_left_touch = new LinkedList<Quaternion>();
-    private LinkedList<Quaternion> rotation_trend_right_touch = new LinkedList<Quaternion>();
+    private LinkedList<Vector3> rotation_trend_left_touch = new LinkedList<Vector3>();
+    private LinkedList<Vector3> rotation_trend_right_touch = new LinkedList<Vector3>();
 
     private Vector3 short_moving_average_left_touch;
     private Vector3 short_moving_average_right_touch;
@@ -53,6 +56,8 @@ public class Controller_Breathing_Tracker : MonoBehaviour
     private double breath_start_time = -1;
 
     private int[] breath_length = new int[number_of_breaths_to_record];
+
+    private double start_calibration_vibration_time_s = -1;
 
 
     void Start()
@@ -68,8 +73,29 @@ public class Controller_Breathing_Tracker : MonoBehaviour
         Vector3 position_left_touch = OVRInput.GetLocalControllerPosition(OVRInput.Controller.LTouch);
         Vector3 position_right_touch = OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch);
 
-        Quaternion rotation_left_touch = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch);
-        Quaternion rotation_right_touch = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch);
+        Vector3 rotation_left_touch = OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch).eulerAngles;
+        Vector3 rotation_right_touch = OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch).eulerAngles;
+
+        if (frames_to_calibration != frames_in_long_moving_avg)
+        {
+            //If rotation then recalibrate
+            if (Mathf.Abs(rotation_trend_right_touch.First.Value.x - rotation_right_touch.x) > abnormal_controller_rotation_indicator ||
+                Mathf.Abs(rotation_trend_right_touch.First.Value.y - rotation_right_touch.y) > abnormal_controller_rotation_indicator ||
+                Mathf.Abs(rotation_trend_right_touch.First.Value.z - rotation_right_touch.z) > abnormal_controller_rotation_indicator)
+            {
+                Recalibrate();
+                return;
+            }
+
+            //If large motion then recalibrate
+            if (Mathf.Abs(position_trend_right_touch.First.Value.x - position_right_touch.x) > abnormal_controller_movement_indicator ||
+                Mathf.Abs(position_trend_right_touch.First.Value.y - position_right_touch.y) > abnormal_controller_movement_indicator ||
+                Mathf.Abs(position_trend_right_touch.First.Value.z - position_right_touch.z) > abnormal_controller_movement_indicator)
+            {
+                Recalibrate();
+                return;
+            }
+        }
 
         position_trend_left_touch.AddFirst(position_left_touch);
         position_trend_right_touch.AddFirst(position_right_touch);
@@ -94,20 +120,17 @@ public class Controller_Breathing_Tracker : MonoBehaviour
         long_moving_average_right_touch = CalculateMovingAverage(frames_in_long_moving_avg, ref position_trend_right_touch);
 
 
-        //Check for rotation
-
-        //if so recalibrate
-
-        //Check for large movements
-
-        //if so recalibrate
-
-
         if (calibrated == false)
         {
-            OVRInput.SetControllerVibration(1, 1, OVRInput.Controller.RTouch);
+            OVRInput.SetControllerVibration(0.8f, 0.8f, OVRInput.Controller.RTouch);
 
+            start_calibration_vibration_time_s = Time.time;
             calibrated = true;
+        }
+
+        if (start_calibration_vibration_time_s > 0 && (Time.time - start_calibration_vibration_time_s) > 1.0f)
+        {
+            OVRInput.SetControllerVibration(0.0f, 0.0f, OVRInput.Controller.RTouch);
         }
 
         //Calculate breathing in or out
@@ -150,7 +173,7 @@ public class Controller_Breathing_Tracker : MonoBehaviour
         breathing_out = false;
         breathing_at_resonance_frequency = false;
         breath_start_time = -1;
-}
+    }
 
     private Vector3 CalculateMovingAverage(int frames_in_moving_avg, ref LinkedList<Vector3> position_trend_touch)
     {
