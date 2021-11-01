@@ -263,6 +263,10 @@ public class OVRCameraRig : MonoBehaviour
 			leftControllerAnchor.localRotation = leftOffsetPose.orientation;
 		}
 
+		//_centerEyeCamera.farClipPlane = _centerEyeCamera.farClipPlane * 1.2f;
+		//_rightEyeCamera.farClipPlane = _rightEyeCamera.farClipPlane * 1.2f;
+		//_leftEyeCamera.farClipPlane = _leftEyeCamera.farClipPlane * 1.2f;
+
 		RaiseUpdatedAnchorsEvent();
 	}
 
