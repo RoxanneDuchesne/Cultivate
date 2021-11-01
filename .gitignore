@@ -35,3 +35,13 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Unity Assets
+Assets/PolygonNatue/
+Assets/Andtech/
+Assets/Fraktalia/
+Assets/Mandala Shader/
+Assets/GalaxyFire/
+Assets/Desolate/
+Assets/TextureHaven/
+Assets/SandTexture/
