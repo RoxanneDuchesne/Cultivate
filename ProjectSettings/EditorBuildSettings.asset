@@ -15,14 +15,20 @@ EditorBuildSettings:
     path: Assets/Scenes/Galaxy_Mandala.unity
     guid: e0f49aa4174f98941b88699b5fecddc0
   - enabled: 1
+    path: Assets/Scenes/Main_Menu.unity
+    guid: 106290cba03bb8b44a95c7bb86253e8f
+  - enabled: 1
     path: Assets/Scenes/River.unity
     guid: 73030802007bff84c89a6a8e6183477a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Desert.unity
     guid: abf77d7f356965b4a942ba16493b07f0
   - enabled: 0
-    path: Assets/Scenes/Main_Menu.unity
-    guid: 106290cba03bb8b44a95c7bb86253e8f
+    path: Assets/BOXOPHOBIC/Polyverse Skies/Demo/Demo.unity
+    guid: 8dc67afdb3052ff45b0b725be038492b
+  - enabled: 0
+    path: Assets/Scenes/Test_Lighting.unity
+    guid: 6a45328b637f4a348ace4a0310781928
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 66f8e6279cfc36f4994153e6bc3b3a5c, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 943db23444c3872479cc83e061148430, type: 2}
