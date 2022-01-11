@@ -269,7 +269,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7a6a5c5e47b74dc4f94cd753c47079d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d103b183b8e111d4a91c9b1bbc0b1468, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -313,8 +313,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 81379418}
   hover: {fileID: 81379423}
-  select_image: {fileID: 21300000, guid: aec214201543226469881d79d936b618, type: 3}
-  unselect_image: {fileID: 21300000, guid: 7a6a5c5e47b74dc4f94cd753c47079d2, type: 3}
+  select_image: {fileID: 21300000, guid: 81f20323ffd43cb4aa48316acdad0c13, type: 3}
+  unselect_image: {fileID: 21300000, guid: d103b183b8e111d4a91c9b1bbc0b1468, type: 3}
   scene_name: River
 --- !u!82 &81379423
 AudioSource:
@@ -327,7 +327,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c27a791dfd0698949b3da93159fcabb8, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
@@ -736,7 +736,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c27a791dfd0698949b3da93159fcabb8, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
