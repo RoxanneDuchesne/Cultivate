@@ -7,6 +7,8 @@ public class Sand_Script : MonoBehaviour
     private ParticleSystem sand;
     private float time_counter;
 
+    private bool grow = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,57 +20,22 @@ public class Sand_Script : MonoBehaviour
     {
         float delta_time = Time.time - time_counter;
 
-        if (delta_time > 9)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.125f;
 
+        if (grow)
+        {
+            var main = sand.main;
+            main.gravityModifier = delta_time * 0.125f;
+        }
+        else
+        {
+            var main = sand.main;
+            main.gravityModifier = (5 - delta_time) * 0.125f;
+        }
+
+        if (delta_time > 5)
+        {
             time_counter = Time.time;
-        }
-        else if (delta_time > 8)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.25f;
-        }
-        else if (delta_time > 7)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.375f;
-        }
-        else if (delta_time > 6)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.5f;
-        }
-        else if (delta_time > 5)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.525f;
-        }
-        else if (delta_time > 4)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.5f;
-        }
-        else if (delta_time > 3)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.375f;
-        }
-        else if (delta_time > 2)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.25f;
-        }
-        else if (delta_time > 1)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.125f;
-        }
-        else if (delta_time > 0)
-        {
-            var main = sand.main;
-            main.gravityModifier = 0.0f;
+            grow = !grow;
         }
     }
 }
