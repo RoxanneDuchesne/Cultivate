@@ -59,11 +59,13 @@ public class Controller_Breathing_Tracker : MonoBehaviour
 
     private double start_calibration_vibration_time_s = -1;
 
-    // Used for level caluclation from 0-4
+    // Used for level calculation from 0-4
     private int level_consecutive_breaths = 0;
     private int level_consecutive_incorrect_breaths = 0;
 
     private int current_level = 0;
+
+    private int breathes_per_level = 4;
 
     void Start()
     {
@@ -254,7 +256,17 @@ public class Controller_Breathing_Tracker : MonoBehaviour
 
     public int Get_Current_Level()
     {
-        if (correct_consecutive_breaths - level_consecutive_breaths > 3)
+        // Reset prev_consecutive_breaths & prev_consecutive_incorrect_breaths
+        if (correct_consecutive_breaths < breathes_per_level)
+        {
+            level_consecutive_breaths = 0;
+        }
+        if (level_consecutive_incorrect_breaths < breathes_per_level)
+        {
+            level_consecutive_incorrect_breaths = 0;
+        }
+
+        if (correct_consecutive_breaths - level_consecutive_breaths >= breathes_per_level)
         {
             if (current_level < 4)
             {
@@ -262,23 +274,13 @@ public class Controller_Breathing_Tracker : MonoBehaviour
             }
             level_consecutive_breaths = correct_consecutive_breaths;
         }
-        else if (incorrect_consecutive_breaths - level_consecutive_incorrect_breaths > 3)
+        else if (incorrect_consecutive_breaths - level_consecutive_incorrect_breaths >= breathes_per_level)
         {
             if (current_level > 0)
             {
                 current_level--;
             }
             level_consecutive_incorrect_breaths = incorrect_consecutive_breaths;
-        }
-
-        // Reset prev_consecutive_breaths & prev_consecutive_incorrect_breaths
-        if (correct_consecutive_breaths == 0)
-        {
-            level_consecutive_breaths = 0;
-        }
-        if (level_consecutive_incorrect_breaths == 0)
-        {
-            level_consecutive_incorrect_breaths = 0;
         }
 
         return current_level;
