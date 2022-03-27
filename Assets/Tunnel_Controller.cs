@@ -13,6 +13,8 @@ public class Tunnel_Controller : MonoBehaviour
     public GameObject camera_obj;
     private OVRCameraRig camera;
 
+    public GameObject fog;
+
     private int correct_breath_count;
 
     private float tunnel_speed;
@@ -26,8 +28,17 @@ public class Tunnel_Controller : MonoBehaviour
     public float TUNNEL_LENGTH = 100.0f;
 
     public float REDUCE_TUNNEL_FREQUENCY = 0.0004f;
-    public float TUNNEL_EXIT_SPEED = 200.0f;
-    public float FINAL_Z_POSITION = 270.0f;
+    public float TUNNEL_EXIT_SPEED = 100.0f;
+    public float EXIT_Z_POSITION = 300.0f;
+
+    private float EXIT_X = 76.5f;
+    private float EXIT_Y = 78.0f;
+    private float EXIT_ADJUSTMENT_SPEED = 3.0f;
+
+    private bool slow_down = false;
+    float begin_slowdown_timestamp;
+
+    private bool moving = true;
 
     // Start is called before the first frame update
     void Start()
@@ -40,12 +51,14 @@ public class Tunnel_Controller : MonoBehaviour
         tunnel.layersSpeed = 0.1f;
 
         distance_to_tunnel_end = TUNNEL_LENGTH;
+
+        fog.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Exit_Tunnel();
+       // Exit_Tunnel();
 
         if (distance_to_tunnel_end <= 0)
         {
@@ -86,20 +99,65 @@ public class Tunnel_Controller : MonoBehaviour
     {
         if (tunnel.curvedTunnelFrequency > 0.0f)
         {
+            fog.SetActive(true);
+
             tunnel.curvedTunnelFrequency -= REDUCE_TUNNEL_FREQUENCY * Time.deltaTime;
         }
         else
         {
             tunnel.curvedTunnel = false;
             tunnel.animationAmplitude = 0.01f;
-            
-            if (camera.transform.position.z < FINAL_Z_POSITION)
+
+            // Adjust x and y to center player when exiting tunnel
+
+            float exit_x_adjustment = camera.transform.position.x + (EXIT_ADJUSTMENT_SPEED * Time.deltaTime);
+            float exit_y_adjustment = camera.transform.position.y + (EXIT_ADJUSTMENT_SPEED * Time.deltaTime);
+
+            if (exit_x_adjustment < EXIT_X)
             {
-                camera.transform.position = camera.transform.position + new Vector3(0, 0, TUNNEL_EXIT_SPEED * Time.deltaTime);
+                camera.transform.position = camera.transform.position + new Vector3((EXIT_ADJUSTMENT_SPEED * Time.deltaTime), 0, 0);
             }
             else
             {
-                tunnel.enabled = false;
+                camera.transform.position = new Vector3(EXIT_X, camera.transform.position.y, camera.transform.position.z);
+            }
+
+            if (exit_y_adjustment < EXIT_Y)
+            {
+                camera.transform.position = camera.transform.position + new Vector3(0, (EXIT_ADJUSTMENT_SPEED * Time.deltaTime), 0);
+            }
+            else
+            {
+                camera.transform.position = new Vector3(camera.transform.position.x, EXIT_Y, camera.transform.position.z);
+            }
+
+
+            if (camera.transform.position.z < EXIT_Z_POSITION)
+            {
+                camera.transform.position = camera.transform.position + new Vector3(0, 0, TUNNEL_EXIT_SPEED * Time.deltaTime);
+            }
+            else if (moving)
+            {
+                if (slow_down == false)
+                {
+                    tunnel_obj.SetActive(false);
+                    fog.SetActive(false);
+
+                    slow_down = true;
+                    // Determine slowdown using exponential decay
+                    begin_slowdown_timestamp = (float)Time.timeAsDouble;
+                }
+
+                float decay_constant = 0.5f;
+                float position_delta = 100;
+                float position_adjustment = ((position_delta) * (float)System.Math.Exp(-(decay_constant * ((float)Time.timeAsDouble - begin_slowdown_timestamp))));
+
+                camera.transform.position = camera.transform.position + new Vector3(0, 0, position_adjustment * Time.deltaTime);
+
+                if (position_adjustment < 0.5f)
+                {
+                    moving = false;
+                }
             }
         }
     }
