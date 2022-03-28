@@ -14,6 +14,7 @@ public class Tunnel_Controller : MonoBehaviour
     private OVRCameraRig camera;
 
     public GameObject fog;
+    public GameObject planets;
 
     private int correct_breath_count;
 
@@ -35,6 +36,8 @@ public class Tunnel_Controller : MonoBehaviour
     private float EXIT_Y = 78.0f;
     private float EXIT_ADJUSTMENT_SPEED = 3.0f;
 
+    public float PLANET_RENDER_DISTANCE = 280.0f;
+
     private bool slow_down = false;
     float begin_slowdown_timestamp;
 
@@ -52,13 +55,17 @@ public class Tunnel_Controller : MonoBehaviour
 
         distance_to_tunnel_end = TUNNEL_LENGTH;
 
-        fog.SetActive(false);
+        fog.transform.localScale = new Vector3(0, 0, 0);
+        planets.transform.localScale = new Vector3(0, 0, 0);
+        //fog.SetActive(false);
+        //planets.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-       // Exit_Tunnel();
+        RenderSettings.skybox.SetFloat("_Rotation", Time.time * 0.8f);
+        Exit_Tunnel();
 
         if (distance_to_tunnel_end <= 0)
         {
@@ -99,7 +106,8 @@ public class Tunnel_Controller : MonoBehaviour
     {
         if (tunnel.curvedTunnelFrequency > 0.0f)
         {
-            fog.SetActive(true);
+            //fog.SetActive(true);
+            fog.transform.localScale = new Vector3(1, 1, 1);
 
             tunnel.curvedTunnelFrequency -= REDUCE_TUNNEL_FREQUENCY * Time.deltaTime;
         }
@@ -131,6 +139,12 @@ public class Tunnel_Controller : MonoBehaviour
                 camera.transform.position = new Vector3(camera.transform.position.x, EXIT_Y, camera.transform.position.z);
             }
 
+            if (camera.transform.position.z > PLANET_RENDER_DISTANCE)
+            {
+                //planets.SetActive(true);
+                
+                planets.transform.localScale = new Vector3(1, 1, 1);
+            }
 
             if (camera.transform.position.z < EXIT_Z_POSITION)
             {
@@ -141,7 +155,9 @@ public class Tunnel_Controller : MonoBehaviour
                 if (slow_down == false)
                 {
                     tunnel_obj.SetActive(false);
-                    fog.SetActive(false);
+                    //fog.SetActive(false);
+                    fog.transform.localScale = new Vector3(0, 0, 0);
+                   
 
                     slow_down = true;
                     // Determine slowdown using exponential decay

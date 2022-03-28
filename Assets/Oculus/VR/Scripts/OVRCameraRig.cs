@@ -263,10 +263,6 @@ public class OVRCameraRig : MonoBehaviour
 			leftControllerAnchor.localRotation = leftOffsetPose.orientation;
 		}
 
-		//_centerEyeCamera.farClipPlane = _centerEyeCamera.farClipPlane * 1.2f;
-		//_rightEyeCamera.farClipPlane = _rightEyeCamera.farClipPlane * 1.2f;
-		//_leftEyeCamera.farClipPlane = _leftEyeCamera.farClipPlane * 1.2f;
-
 		RaiseUpdatedAnchorsEvent();
 	}
 
@@ -392,6 +388,10 @@ public class OVRCameraRig : MonoBehaviour
 			_rightEyeCamera.enabled = (usePerEyeCameras && (!monoscopic || OVRPlugin.EyeTextureArrayEnabled));
 
 		}
+
+		//_centerEyeCamera.farClipPlane = _centerEyeCamera.farClipPlane * 1000.2f;
+		//_rightEyeCamera.farClipPlane = _rightEyeCamera.farClipPlane * 1000.2f;
+		//_leftEyeCamera.farClipPlane = _leftEyeCamera.farClipPlane * 1000.2f;
 	}
 
 	protected virtual Transform ConfigureAnchor(Transform root, string name)
@@ -419,6 +419,7 @@ public class OVRCameraRig : MonoBehaviour
 
 	public virtual Matrix4x4 ComputeTrackReferenceMatrix()
 	{
+
 		if (centerEyeAnchor == null)
 		{
 			Debug.LogError("centerEyeAnchor is required");
