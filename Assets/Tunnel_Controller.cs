@@ -16,14 +16,14 @@ public class Tunnel_Controller : MonoBehaviour
     public GameObject fog;
     public GameObject planets;
 
-    private int correct_breath_count;
+    private int correct_breath_count = 0;
 
     private float tunnel_speed;
     private float distance_to_tunnel_end;
 
     public float MAX_SPEED = 3.0f;
     public float MIN_SPEED = 0.1f;
-    public float SPEED_INCREMENT = 0.4f;
+    public float SPEED_INCREMENT = 10.0f;
     public float SPEED_DECREMENT = 0.2f;
 
     public float TUNNEL_LENGTH = 100.0f;
@@ -46,6 +46,7 @@ public class Tunnel_Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         breath_tracker = breath_tracker_obj.GetComponent<Controller_Breathing_Tracker>();
         tunnel = tunnel_obj.GetComponent<TunnelEffect.TunnelFX2>();
         camera = camera_obj.GetComponent<OVRCameraRig>();
@@ -57,15 +58,13 @@ public class Tunnel_Controller : MonoBehaviour
 
         fog.transform.localScale = new Vector3(0, 0, 0);
         planets.transform.localScale = new Vector3(0, 0, 0);
-        //fog.SetActive(false);
-        //planets.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         RenderSettings.skybox.SetFloat("_Rotation", Time.time * 0.8f);
-        Exit_Tunnel();
+        //Exit_Tunnel();
 
         if (distance_to_tunnel_end <= 0)
         {
@@ -83,7 +82,7 @@ public class Tunnel_Controller : MonoBehaviour
 
     void Update_Speed()
     {
-        if (correct_breath_count > breath_tracker.correct_consecutive_breaths)
+        if (correct_breath_count < breath_tracker.correct_consecutive_breaths)
         {
             if (tunnel_speed < MAX_SPEED)
             {
@@ -106,7 +105,6 @@ public class Tunnel_Controller : MonoBehaviour
     {
         if (tunnel.curvedTunnelFrequency > 0.0f)
         {
-            //fog.SetActive(true);
             fog.transform.localScale = new Vector3(1, 1, 1);
 
             tunnel.curvedTunnelFrequency -= REDUCE_TUNNEL_FREQUENCY * Time.deltaTime;
@@ -120,7 +118,7 @@ public class Tunnel_Controller : MonoBehaviour
 
             float exit_x_adjustment = camera.transform.position.x + (EXIT_ADJUSTMENT_SPEED * Time.deltaTime);
             float exit_y_adjustment = camera.transform.position.y + (EXIT_ADJUSTMENT_SPEED * Time.deltaTime);
-
+            /*
             if (exit_x_adjustment < EXIT_X)
             {
                 camera.transform.position = camera.transform.position + new Vector3((EXIT_ADJUSTMENT_SPEED * Time.deltaTime), 0, 0);
@@ -138,11 +136,9 @@ public class Tunnel_Controller : MonoBehaviour
             {
                 camera.transform.position = new Vector3(camera.transform.position.x, EXIT_Y, camera.transform.position.z);
             }
-
+            */
             if (camera.transform.position.z > PLANET_RENDER_DISTANCE)
-            {
-                //planets.SetActive(true);
-                
+            {     
                 planets.transform.localScale = new Vector3(1, 1, 1);
             }
 
@@ -154,8 +150,7 @@ public class Tunnel_Controller : MonoBehaviour
             {
                 if (slow_down == false)
                 {
-                    tunnel_obj.SetActive(false);
-                    //fog.SetActive(false);
+                    tunnel_obj.transform.localScale = new Vector3(0, 0, 0);
                     fog.transform.localScale = new Vector3(0, 0, 0);
                    
 
