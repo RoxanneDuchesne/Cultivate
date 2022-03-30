@@ -29,7 +29,9 @@ public class Controller_Breathing_Tracker : MonoBehaviour
     public bool breathing_in = false;
     public bool breathing_out = false;
 
-    public bool breathing_at_resonance_frequency = false;
+    public bool last_breath_at_frequency = false;
+    public bool last_breath_too_slow = false;
+    public bool last_breath_too_fast = false;
 
     public int correct_consecutive_breaths = 0;
     public int incorrect_consecutive_breaths = 0;
@@ -178,7 +180,10 @@ public class Controller_Breathing_Tracker : MonoBehaviour
         calibrated = false;
         breathing_in = false;
         breathing_out = false;
-        breathing_at_resonance_frequency = false;
+        last_breath_at_frequency = false;
+        last_breath_too_slow = false;
+        last_breath_too_fast = false;
+
         breath_start_time = -1;
     }
 
@@ -231,6 +236,10 @@ public class Controller_Breathing_Tracker : MonoBehaviour
         {
             correct_consecutive_breaths++;
 
+            last_breath_at_frequency = true;
+            last_breath_too_slow = false;
+            last_breath_too_fast = false;
+
             if (incorrect_consecutive_breaths > 0)
             {
                 previous_incorrect_consecutive_breaths = incorrect_consecutive_breaths;
@@ -240,6 +249,19 @@ public class Controller_Breathing_Tracker : MonoBehaviour
         else
         {
             incorrect_consecutive_breaths++;
+
+            last_breath_at_frequency = false;
+
+            if (breath_length < resonance_frequency_s - resonance_frequency_buffer_s)
+            {
+                last_breath_too_fast = true;
+                last_breath_too_slow = false;
+            }
+            else
+            {
+                last_breath_too_fast = false;
+                last_breath_too_slow = true;
+            }
 
             if (correct_consecutive_breaths > 0)
             {
