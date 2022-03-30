@@ -32,9 +32,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/River.unity
     guid: f15477b7ed28ecf4dac0bbc21f218b08
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tunnel.unity
     guid: 4a9af1c82ca3c6c45a91933dfab214cf
+  - enabled: 1
+    path: Assets/Scenes/Coral Reef.unity
+    guid: 94757fd23e84f8c478af58f353a5b3c1
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 66f8e6279cfc36f4994153e6bc3b3a5c, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 943db23444c3872479cc83e061148430, type: 2}
