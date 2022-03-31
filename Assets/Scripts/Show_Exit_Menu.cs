@@ -10,7 +10,7 @@ public class Show_Exit_Menu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       exit_menu.SetActive(false);
+        exit_menu.SetActive(false);
         laser_pointer.SetActive(false);
     }
 
