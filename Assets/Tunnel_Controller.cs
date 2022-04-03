@@ -64,7 +64,7 @@ public class Tunnel_Controller : MonoBehaviour
     void Update()
     {
         RenderSettings.skybox.SetFloat("_Rotation", Time.time * 0.8f);
-        Exit_Tunnel();
+        //Exit_Tunnel();
 
         if (distance_to_tunnel_end <= 0)
         {
