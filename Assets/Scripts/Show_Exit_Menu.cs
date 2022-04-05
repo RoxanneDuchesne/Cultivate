@@ -17,7 +17,8 @@ public class Show_Exit_Menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(OVRInput.GetDown(OVRInput.Button.Any, OVRInput.Controller.LTouch) || OVRInput.GetDown(OVRInput.Button.Any, OVRInput.Controller.RTouch))
+       if(OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.LTouch) || OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.LTouch) 
+            || OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch) || OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch))
         {
             exit_menu.SetActive(true);
             laser_pointer.SetActive(true);
